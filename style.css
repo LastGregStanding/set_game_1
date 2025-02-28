@@ -1,0 +1,33 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
