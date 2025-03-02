@@ -31,3 +31,72 @@ textarea,
 select {
   font: inherit;
 }
+
+body {
+  background-color: black;
+  color: white;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: 800px;
+  width: 1500px;
+  margin: 50px;
+}
+
+.cell {
+  background-size: cover;
+  background-position: center;
+  width: 280px;
+  height: 180px;
+  border: 1.5px solid black;
+  border-radius: 10px;
+}
+
+.back-of-card {
+  width: 280px;
+  height: 180px;
+  border: 1.5px solid black;
+  background-size: 115%;
+}
+
+/* .cell:hover {
+  border: 5px solid blue;
+  cursor: pointer;
+} */
+
+.card-highlight {
+  border: 5px solid blue;
+  cursor: pointer;
+}
+
+.bad-match {
+  border: 5px solid red;
+}
+
+.selected {
+  border: 5px solid blue;
+  /* background-color: blue; */
+}
+
+.scoreboard {
+  display: flex;
+  gap: 10px;
+}
+
+.timer {
+  font-size: 50px;
+}
+
+button {
+  margin: 20px;
+  padding: 20px 50px;
+  border: 3px solid transparent;
+}
+
+button:hover {
+  cursor: pointer;
+  border: 3px solid blue;
+  background-color: #c9c9f7;
+}
