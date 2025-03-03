@@ -1,10 +1,11 @@
 "use strict";
-
 const startBtn = document.querySelector(".start-btn");
 const playAgainBtn = document.querySelector(".play-again-btn");
 const timer = document.querySelector(".timer");
 const gameboard = document.querySelector(".gameboard");
 const scoreBoard = document.querySelector(".score");
+const nameInput = document.querySelector(".name-input");
+const submitBtn = document.querySelector(".submit-btn");
 const gameCells = [];
 const currentCards = [];
 const usedCards = [];
@@ -940,3 +941,37 @@ playAgainBtn.addEventListener("click", function () {
   scoreBoard.textContent = "0";
   chosenCards.splice(0, chosenCards.length);
 });
+
+// Initialize Supabase client
+const SUPABASE_URL = "https://rjjxpcclwxacsdnodeln.supabase.co";
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqanhwY2Nsd3hhY3Nkbm9kZWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5NTg4ODgsImV4cCI6MjA1NjUzNDg4OH0.3pNr4mDSZWyUz-YvqRZe8rQqwnYp0KR342CF0zta81Y"; // Replace with your actual anon key
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Function to submit a high score
+async function submitHighScore(name, score) {
+  const { data, error } = await supabase
+    .from("highscores")
+    .insert([{ name, score }]);
+
+  if (error) {
+    console.error("Error inserting high score:", error);
+  } else {
+    console.log("High score saved:", data);
+  }
+}
+
+// Event listener for submitting a high score
+document
+  .querySelector(".submit-btn")
+  .addEventListener("click", async function () {
+    const name = document.querySelector(".name-input").value;
+
+    if (!name) {
+      alert("Please enter your name!");
+      return;
+    }
+
+    await submitHighScore(name, score);
+  });
