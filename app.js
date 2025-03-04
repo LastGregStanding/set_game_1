@@ -893,7 +893,7 @@ function cardClickActions() {
 function startTimer() {
   clearInterval(countdown);
 
-  let timeLeft = 3;
+  let timeLeft = 60;
   countdown = setInterval(() => {
     if (timeLeft === 0) {
       timer.style.color = "red";
