@@ -987,6 +987,8 @@ document
 
     await submitHighScore(name, score);
     modal.close();
+    // Reload the page
+    location.reload();
   });
 
 // Fetch the highscores
@@ -1001,9 +1003,18 @@ async function fetchScores() {
     return;
   }
 
-  const table = document.querySelector("score-table");
+  const table = document.querySelector(".score-table");
 
-  data.forEach((entry) => {
+  if (!Array.isArray(data) || data.length === 0) {
+    console.warn("No scores found or data is not an array.");
+    return;
+  }
+
+  // Limit the data to the first 5 rows
+  const top5Scores = data.slice(0, 5);
+
+  // Loop through the top 5 entries and display them in the table
+  top5Scores.forEach((entry) => {
     let row = table.insertRow();
     let nameCell = row.insertCell(0);
     let scoreCell = row.insertCell(1);
