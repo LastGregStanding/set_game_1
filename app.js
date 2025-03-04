@@ -702,6 +702,13 @@ function dealNewCard() {
   return randomCardID;
 }
 
+// Draw 20 cards to play the game
+function dealTwentyCards() {
+  for (let i = 0; i < 20; i++) {
+    currentCards.push(deck[dealNewCard()]);
+  }
+}
+
 // Create gameboard
 function createGameboard() {
   for (let i = 0; i < 20; i++) {
@@ -892,14 +899,15 @@ function cardClickActions() {
 // Game timer
 function startTimer() {
   clearInterval(countdown);
-
-  let timeLeft = 60;
   countdown = setInterval(() => {
+    // If time runs out
     if (timeLeft === 0) {
       timer.style.color = "red";
       gameOver = true;
+      // Redraw the game
       removeGameboard();
       createGameboard();
+      // Open modal
       userScoreSubmit.textContent = score;
       modal.showModal();
 
@@ -908,9 +916,14 @@ function startTimer() {
         modal.close();
       });
       clearInterval(countdown);
-    } else {
+    }
+
+    // If timer is not zero, subtract a second.
+    else {
       timeLeft--;
     }
+
+    // Adjust the clock interface for single digit time
     if (timeLeft > 9) {
       timer.textContent = `0:${timeLeft}`;
     } else {
@@ -919,16 +932,11 @@ function startTimer() {
   }, 1000);
 }
 
-// Draw 20 cards to play the game
-function dealTwentyCards() {
-  for (let i = 0; i < 20; i++) {
-    currentCards.push(deck[dealNewCard()]);
-  }
-}
-
+// Deal the cards and draw the game
 dealTwentyCards();
 createGameboard();
 
+// Clicking the start button
 startBtn.addEventListener("click", function () {
   if (gameOver) {
     removeGameboard();
@@ -938,6 +946,7 @@ startBtn.addEventListener("click", function () {
   }
 });
 
+// Clicking the play again button
 playAgainBtn.addEventListener("click", function () {
   clearInterval(countdown);
   timeLeft = 60;
@@ -954,14 +963,14 @@ playAgainBtn.addEventListener("click", function () {
 });
 
 //#region Database info
+
 // Initialize Supabase client
 const SUPABASE_URL = "https://rjjxpcclwxacsdnodeln.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqanhwY2Nsd3hhY3Nkbm9kZWxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5NTg4ODgsImV4cCI6MjA1NjUzNDg4OH0.3pNr4mDSZWyUz-YvqRZe8rQqwnYp0KR342CF0zta81Y"; // Replace with your actual anon key
-
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Function to submit a high score
+// Function to submit a high score to the DB
 async function submitHighScore(name, score) {
   const { data, error } = await supabase
     .from("highscores")
@@ -981,7 +990,7 @@ document
     const name = document.querySelector(".name-input").value;
 
     if (!name) {
-      alert("Please enter your name!");
+      alert("Please enter your name or click the red x!");
       return;
     }
 
@@ -1010,10 +1019,10 @@ async function fetchScores() {
     return;
   }
 
-  // Limit the data to the first 5 rows
+  // Limit the table to only the top 5 scores
   const top5Scores = data.slice(0, 5);
 
-  // Loop through the top 5 entries and display them in the table
+  // Loop through the top 5 entries in the DB and display them in the table
   top5Scores.forEach((entry) => {
     let row = table.insertRow();
     let nameCell = row.insertCell(0);
@@ -1026,5 +1035,3 @@ async function fetchScores() {
 fetchScores();
 
 //#endregion
-
-// modal.showModal();
