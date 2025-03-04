@@ -8,16 +8,75 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
-    <div class="gameboard"></div>
-    <div class="scoreboard">
-      <h1>Score:</h1>
-      <h1 class="score">0</h1>
+    <!-- Container for the entire game site -->
+
+    <div class="game">
+      <h1 class="set-title">Set</h1>
+
+      <!-- Modal -->
+      <dialog class="my-modal">
+        <div class="modal-div-flexbox">
+          <div class="score-xbtn-div">
+            <div class="user-score-div">
+              <h2>Your score:</h2>
+              <h2 class="user-score-submit">0</h2>
+            </div>
+            <p class="x-btn">X</p>
+          </div>
+          <div class="user-name-input">
+            <h2>Your name:</h2>
+            <input type="text" class="name-input" />
+          </div>
+          <button class="submit-btn">Submit</button>
+        </div>
+      </dialog>
+
+      <!-- Container for the gameboard -->
+      <div class="gameboard"></div>
+
+      <!-- Container for the details below the gameboard -->
+      <div class="game-details">
+        <div class="timer-container">
+          <p>Time:</p>
+          <p class="timer">1:00</p>
+        </div>
+        <div class="start-score-play-container">
+          <button class="start-btn">Start</button>
+          <div class="scoreboard">
+            <p>Score:</p>
+            <p class="score">0</p>
+          </div>
+          <button class="play-again-btn">Reset</button>
+        </div>
+        <div class="higscore-table">
+          <h3 class="table-title-highscores">Highscores</h3>
+          <table class="score-table">
+            <tr>
+              <th>Name</th>
+              <th>Score</th>
+            </tr>
+            <td>Greg</td>
+            <td>5</td>
+            <tr>
+              <td>Moa</td>
+              <td>8</td>
+            </tr>
+            <tr>
+              <td>Maddie</td>
+              <td>6</td>
+            </tr>
+            <tr>
+              <td>Chris</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>Dolly</td>
+              <td>1</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <script type="module" src="app.js"></script>
     </div>
-    <p class="timer">1:00</p>
-    <button class="start-btn">Start</button>
-    <button class="play-again-btn">Play Again</button>
-    <input type="text" class="name-input" />
-    <button class="submit-btn">Submit</button>
-    <script type="module" src="app.js"></script>
   </body>
 </html>

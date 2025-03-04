@@ -6,6 +6,9 @@ const gameboard = document.querySelector(".gameboard");
 const scoreBoard = document.querySelector(".score");
 const nameInput = document.querySelector(".name-input");
 const submitBtn = document.querySelector(".submit-btn");
+const modal = document.querySelector(".my-modal");
+const userScoreSubmit = document.querySelector(".user-score-submit");
+const xBtn = document.querySelector(".x-btn");
 const gameCells = [];
 const currentCards = [];
 const usedCards = [];
@@ -890,13 +893,20 @@ function cardClickActions() {
 function startTimer() {
   clearInterval(countdown);
 
-  let timeLeft = 60;
+  let timeLeft = 3;
   countdown = setInterval(() => {
     if (timeLeft === 0) {
       timer.style.color = "red";
       gameOver = true;
       removeGameboard();
       createGameboard();
+      userScoreSubmit.textContent = score;
+      modal.showModal();
+
+      // If user hits "x" button, close the modal
+      xBtn.addEventListener("click", function () {
+        modal.close();
+      });
       clearInterval(countdown);
     } else {
       timeLeft--;
@@ -932,6 +942,7 @@ playAgainBtn.addEventListener("click", function () {
   clearInterval(countdown);
   timeLeft = 60;
   timer.textContent = `1:00`;
+  timer.style.color = "black";
   currentCards.splice(0, currentCards.length);
   dealTwentyCards();
   removeGameboard();
@@ -942,6 +953,7 @@ playAgainBtn.addEventListener("click", function () {
   chosenCards.splice(0, chosenCards.length);
 });
 
+//#region Database info
 // Initialize Supabase client
 const SUPABASE_URL = "https://rjjxpcclwxacsdnodeln.supabase.co";
 const SUPABASE_ANON_KEY =
@@ -974,4 +986,34 @@ document
     }
 
     await submitHighScore(name, score);
+    modal.close();
   });
+
+// Fetch the highscores
+async function fetchScores() {
+  let { data, error } = await supabase
+    .from("highscores")
+    .select("name, score")
+    .order("score", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching scores:", error);
+    return;
+  }
+
+  const table = document.querySelector("score-table");
+
+  data.forEach((entry) => {
+    let row = table.insertRow();
+    let nameCell = row.insertCell(0);
+    let scoreCell = row.insertCell(1);
+    nameCell.textContent = entry.name;
+    scoreCell.textContent = entry.score;
+  });
+}
+
+fetchScores();
+
+//#endregion
+
+// modal.showModal();
