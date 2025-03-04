@@ -16,7 +16,7 @@ const chosenCards = [];
 let countdown;
 let gameOver = true;
 let score = 0;
-let timeLeft = 60;
+let timeLeft = 90;
 
 // Deck of cards for the game
 const deck = [
@@ -924,10 +924,16 @@ function startTimer() {
     }
 
     // Adjust the clock interface for single digit time
-    if (timeLeft > 9) {
+    if (timeLeft <= 9) {
+      timer.textContent = `0:0${timeLeft}`;
+    } else if (timeLeft > 60 && timeLeft < 70) {
+      timer.textContent = `1:0${timeLeft - 60}`;
+    } else if (timeLeft === 60) {
+      timer.textContent = "1:00";
+    } else if (timeLeft < 60) {
       timer.textContent = `0:${timeLeft}`;
     } else {
-      timer.textContent = `0:0${timeLeft}`;
+      timer.textContent = `1:${timeLeft - 60}`;
     }
   }, 1000);
 }
@@ -949,8 +955,8 @@ startBtn.addEventListener("click", function () {
 // Clicking the play again button
 playAgainBtn.addEventListener("click", function () {
   clearInterval(countdown);
-  timeLeft = 60;
-  timer.textContent = `1:00`;
+  timeLeft = 90;
+  timer.textContent = `1:30`;
   timer.style.color = "black";
   currentCards.splice(0, currentCards.length);
   dealTwentyCards();
